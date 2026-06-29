@@ -23,6 +23,11 @@ body {
   padding-bottom: 3rem;
 }
 
+.teaser .image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
 .teaser {
   font-family: 'Google Sans', sans-serif;
 }
