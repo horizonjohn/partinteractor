@@ -42,6 +42,10 @@
 </head>
 <body>
 
+  <button class="scroll-to-top" onclick="scrollToTop()" type="button" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
@@ -323,14 +327,12 @@
   <div class="container is-max-desktop content">
     <div class="bibtex-header">
       <h2 class="title">BibTeX</h2>
-      <button id="copy-bibtex" class="button is-small is-rounded is-dark" type="button">
-        <span class="icon is-small">
-          <i class="fas fa-copy"></i>
-        </span>
-        <span>Copy</span>
+      <button class="copy-bibtex-btn" onclick="copyBibTeX()" type="button" title="Copy BibTeX to clipboard">
+        <i class="fas fa-copy"></i>
+        <span class="copy-text">Copy</span>
       </button>
     </div>
-    <pre><code id="bibtex-code">@inproceedings{jiang2026partinteractor,
+    <pre id="bibtex-code"><code>@inproceedings{jiang2026partinteractor,
   title={PartInteractor: Intent-Driven Part-Aware 3D Authoring for Continuous Co-Creation in XR},
   author={Jiang, Jianan and Li, Bin},
   booktitle={Proceedings of the 39th Annual ACM Symposium on User Interface Software and Technology},
@@ -340,10 +342,6 @@
   </div>
 </section>
 
-
-<button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
-  <i class="fas fa-arrow-up"></i>
-</button>
 
 <footer class="footer">
   <div class="container">
@@ -358,8 +356,9 @@
           <p>
             This website is adapted from the project page template of
             <a href="https://nerfies.github.io">Nerfies</a>.
-            We borrowed the <a href="https://github.com/nerfies/nerfies.github.io">source code</a>
-            and thank the authors for open-sourcing their design.
+            We borrowed the <a href="https://github.com/nerfies/nerfies.github.io">source code</a> and referenced the
+            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
+            We thank the authors of both templates for open-sourcing their designs.
           </p>
           <p>
             This website is licensed under a <a rel="license"
