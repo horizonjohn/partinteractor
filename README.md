@@ -7,7 +7,7 @@ This repository contains the source code for the [PartInteractor project page](h
 
 This website is built on the excellent academic project page template from [Nerfies](https://nerfies.github.io). We borrowed and adapted the source code from [nerfies/nerfies.github.io](https://github.com/nerfies/nerfies.github.io).
 
-We also referenced the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) for parts of the page layout and interactions.
+We also referenced the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) and [OmniPart](https://omnipart.github.io) for parts of the page layout and interactions.
 
 Special thanks to the authors of both templates for open-sourcing their website designs.
 

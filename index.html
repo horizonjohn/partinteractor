@@ -34,6 +34,13 @@
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="./static/modules/SceneViewer/scene-viewer.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
@@ -67,7 +74,7 @@
           More Research
         </a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://horizonjohn.github.io/partinteractor/">
+          <a class="navbar-item" href="https://horizonjohn.github.io/PartInteractor/">
             PartInteractor
           </a>
         </div>
@@ -88,11 +95,15 @@
             <span class="author-block">
               <a href="https://horizonjohn.github.io/">Jianan Jiang</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://sites.psu.edu/binli/">Bin Li</a><sup>1</sup>,</span>
+              <a href="https://sites.psu.edu/binli/">Bin Li</a><sup>1</sup></span>
           </div>
 
           <div class="is-size-5 publication-authors">
             <span class="author-block"><sup>1</sup>The Pennsylvania State University</span>
+          </div>
+
+          <div class="publication-venue">
+            Accepted to ACM UIST 2026
           </div>
 
           <div class="column has-text-centered">
@@ -114,16 +125,6 @@
                       <i class="ai ai-arxiv"></i>
                   </span>
                   <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="#video"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
                 </a>
               </span>
               <!-- Code Link. -->
@@ -149,7 +150,7 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <video controls muted preload playsinline width="100%">
-        <source src="./static/videos/3DFlexiXR.mp4"
+        <source src="./static/videos/PartInteractor.mp4"
                 type="video/mp4">
       </video>
     </div>
@@ -209,11 +210,12 @@
         <div class="content has-text-justified">
           <p>
             <span class="dnerf">PartInteractor</span> reconceptualizes generative XR authoring as a
-            human-in-the-loop workflow rather than a one-shot prompt-to-object operation. The system
-            tightly couples <b>Pre-Generation Intent Scaffolding</b>,
-            <b>Structured Part-Aware Generation</b>, and
-            <b>Post-Generation Component-level Interaction</b> into a continuous authoring pipeline
-            within an immersive workspace.
+            human-in-the-loop, representation-to-interaction workflow 
+            rather than a one-shot prompt-to-object process. 
+            It connects <em><u>Pre-Generation Intent Scaffolding</u></em>, <em><u>Structured Part-Aware Generation</u></em>,
+            and <em><u>Post-Generation Component-Level Interaction</u></em> into a continuous authoring pipeline,
+            allowing users to iteratively externalize intent, generate semantically decomposed 3D assets, 
+            and directly manipulate object components within an immersive workspace.
           </p>
         </div>
 
@@ -239,9 +241,10 @@
         <div class="content has-text-justified">
           <p>
             After candidate selection, the system converts the 2D representation into a structured
-            3D asset with explicit semantic part hierarchies. Components remain separate editable
-            units rather than a monolithic mesh, preserving both geometry and part organization for
-            subsequent interaction.
+            3D asset with explicit semantic part hierarchies. 
+            Rather than producing a monolithic mesh, 
+            PartInteractor preserves object components as semantically meaningful and directly editable units, 
+            enabling subsequent component-level interaction.
           </p>
         </div>
         <div class="content has-text-centered">
@@ -255,10 +258,11 @@
         <h3 class="title is-4">Post-Generation Component-level Interaction</h3>
         <div class="content has-text-justified">
           <p>
-            Generated objects become editable design artifacts. An LLM reasons over XR scene context
-            to support component-level operations—including spatial manipulation, editing,
-            structural inspection, restructuring, and appearance customization—without whole-object
-            regeneration.
+            Generated objects become structured, interactable design artifacts rather than static outputs. 
+            By reasoning over XR scene context and part-aware representations, 
+            PartInteractor supports flexible, fine-grained interactions at both object and component levels, 
+            within and across objects, including manipulation, inspection, editing, restructuring, 
+            and appearance customization without whole-object regeneration.
           </p>
         </div>
         <div class="content has-text-centered">
@@ -277,18 +281,102 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-
-    <!-- Experiments. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Experiments</h2>
+        <h2 class="title is-3">Interactive Generation Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            Explore representative generation results interactively. Select a thumbnail to load the
+            corresponding part layout and generated mesh, rotate the view to inspect each result,
+            and use the explode slider to examine component structure.
+          </p>
+        </div>
+        <div class="scene-viewer" id="interactive-generation-viewer">
+          <div id="viewer-container">
+            <div id="viewer-left">
+              <div class="viewer-label">Part Layout</div>
+              <div id="loading-overlay-left" class="viewer-loading-overlay">
+                <div class="loading-spinner"></div>
+                <div class="viewer-loading-text">Loading...</div>
+              </div>
+            </div>
+            <div id="viewer-right">
+              <div class="viewer-label">Generated Mesh</div>
+              <div id="loading-overlay-right" class="viewer-loading-overlay">
+                <div class="loading-spinner"></div>
+                <div class="viewer-loading-text">Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div id="button-block"></div>
+          <div class="scene-swiper">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-wrapper" id="image-slider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Representative Failure Cases</h2>
+        <div class="content has-text-justified">
+          <p>
+            Failure cases include noisy fragments, 
+            missing geometry in occluded regions, and fused components.
+          </p>
+        </div>
+        <div class="scene-viewer" id="failure-cases-viewer">
+          <div id="viewer-container-2">
+            <div id="viewer-left-2">
+              <div class="viewer-label">Part Layout</div>
+              <div id="loading-overlay-left-2" class="viewer-loading-overlay">
+                <div class="loading-spinner"></div>
+                <div class="viewer-loading-text">Loading...</div>
+              </div>
+            </div>
+            <div id="viewer-right-2">
+              <div class="viewer-label">Generated Mesh</div>
+              <div id="loading-overlay-right-2" class="viewer-loading-overlay">
+                <div class="loading-spinner"></div>
+                <div class="viewer-loading-text">Loading...</div>
+              </div>
+            </div>
+          </div>
+          <div id="button-block-2"></div>
+          <div class="scene-swiper">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-wrapper" id="image-slider-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Evaluation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Evaluation</h2>
 
         <!-- Multimodal Inputs. -->
         <h3 class="title is-4">Multimodal Inputs</h3>
         <div class="content has-text-justified">
           <p>
-            Users can express design ideas through speech alone or in combination with in-situ
-            sketches or headset-captured images.
+            Users can express design ideas through &#x24B6; <b>speech</b> alone 
+            or in combination with &#x24B7; <i>in-situ</i> <b>sketches</b> 
+            or &#x24B8;<i>headset-captured</i> <b>images</b>.
           </p>
         </div>
         <div class="content has-text-centered">
@@ -299,22 +387,21 @@
         <br/> <br/>
         <!--/ Multimodal Inputs. -->
 
-        <!-- Additional Analysis. -->
-        <h3 class="title is-4">Additional Analysis</h3>
+        <!-- Applications. -->
+        <h3 class="title is-4">Applications</h3>
         <div class="content has-text-justified">
           <p>
-            To further examine <span class="dnerf">PartInteractor</span> beyond the objects used in
-            our user studies, we tested 51 everyday categories across three pathways:
-            retrieval-only, generation-only, and retrieval-generation, with 17 cases each.
+            We further illustrate potential VR and MR scenarios enabled by PartInteractor,
+            suggesting opportunities for creative design exploration and educational learning.
           </p>
         </div>
         <div class="content has-text-centered">
-          <img id="reliability-image"
-               src="./static/images/reliability.png"
-               alt="Reliability analysis figure"
+          <img src="./static/images/application.png"
+               alt="VR and MR application scenarios"
                width="75%"/>
         </div>
-        <!--/ Additional Analysis. -->
+        <br/> <br/>
+        <!--/ Applications. -->
 
       </div>
     </div>
@@ -345,31 +432,41 @@
 
 <footer class="footer">
   <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link" href="https://horizonjohn.github.io/partinteractor/">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
           <p>
             This website is adapted from the project page template of
             <a href="https://nerfies.github.io">Nerfies</a>.
-            We borrowed the <a href="https://github.com/nerfies/nerfies.github.io">source code</a> and referenced the
-            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>.
+            We referenced the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> 
+            and <a href="https://omnipart.github.io">OmniPart</a>.
             We thank the authors of both templates for open-sourcing their designs.
-          </p>
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
         </div>
       </div>
     </div>
   </div>
 </footer>
+
+<script type="module">
+  import { ViewerModule } from "./static/modules/SceneViewer/scene-viewer.js";
+
+  const generationViewer = new ViewerModule(
+    "#interactive-generation-viewer",
+    ["car", "robot", "sofa", "doll", "truck", "train", "turtle", "machine"],
+    "./static/models",
+    "./static/images/generation"
+  );
+  generationViewer.init();
+
+  const failureViewer = new ViewerModule(
+    "#failure-cases-viewer",
+    ["printer", "backpack", "umbrella"],
+    "./static/models",
+    "./static/images/generation"
+  );
+  failureViewer.init();
+</script>
 
 </body>
 </html>
