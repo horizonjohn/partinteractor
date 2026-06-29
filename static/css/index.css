@@ -28,6 +28,11 @@ body {
   border-radius: 10px;
 }
 
+.teaser video {
+  width: 100%;
+  border-radius: 10px;
+}
+
 .teaser {
   font-family: 'Google Sans', sans-serif;
 }

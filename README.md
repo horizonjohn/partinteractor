@@ -1,10 +1,7 @@
-# PartInteractor
+# PartInteractor: Intent-Driven Part-Aware 3D Authoring for Continuous Co-Creation in XR
 
 This repository contains the source code for the [PartInteractor project page](https://partinteractor.github.io).
 
-**PartInteractor: Intent-Driven Part-Aware 3D Authoring for Continuous Co-Creation in XR**
-
-Jianan Jiang, Bin Li — The Pennsylvania State University
 
 ## Acknowledgments
 
