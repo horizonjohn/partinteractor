@@ -75,4 +75,41 @@ $(document).ready(function() {
 
     bulmaSlider.attach();
 
+    var backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 400) {
+          backToTop.classList.add('is-visible');
+        } else {
+          backToTop.classList.remove('is-visible');
+        }
+      });
+
+      backToTop.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    var copyBibtexButton = document.getElementById('copy-bibtex');
+    var bibtexCode = document.getElementById('bibtex-code');
+    if (copyBibtexButton && bibtexCode) {
+      copyBibtexButton.addEventListener('click', function() {
+        var text = bibtexCode.textContent;
+        navigator.clipboard.writeText(text).then(function() {
+          var label = copyBibtexButton.querySelector('span:last-child');
+          var icon = copyBibtexButton.querySelector('i');
+          var originalLabel = label.textContent;
+          label.textContent = 'Copied!';
+          icon.classList.remove('fa-copy');
+          icon.classList.add('fa-check');
+
+          setTimeout(function() {
+            label.textContent = originalLabel;
+            icon.classList.remove('fa-check');
+            icon.classList.add('fa-copy');
+          }, 2000);
+        });
+      });
+    }
+
 })
